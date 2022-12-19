@@ -1,4 +1,5 @@
-Our project is Çankaya University Mobile Application. We aim to add QR Attendance, QR id check for school busses, and online course evaluation questionnaire features to our application.
+<h1>📱 CankayaMobileApp</h1>
+Our project is Cankaya University Mobile Application. We aim to add QR Attendance, QR id check for school busses, and online course evaluation questionnaire features to our application.
 
 # Advisor
 * [Prof. Dr. Ahmet COŞAR](http://www.cankaya.edu.tr/akademik_birimler/cv/Prof.Dr.AhmetCO%C5%9EAR.html)
