@@ -9,4 +9,5 @@ Our project is Cankaya University Mobile Application. We aim to add QR Attendanc
 * [Mertcan Şeyda](https://github.com/MertcanSeyda) - 201511411
 * [İrem Bakar](https://github.com/irembakar) - 201911014
 # Contents
-[Project Web Page](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/wiki/Website)
+* [Project Web Page](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/wiki/Website)
+* [Project Report for CENG-407](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/blob/main/407_Report_CankayaMobileApp.pdf)
