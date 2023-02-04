@@ -7,7 +7,7 @@ const Signup = () => {
     <View>
       <Back />
 
-      <Text>Signup</Text>
+      <Text>Guest</Text>
     </View>
   );
 };
