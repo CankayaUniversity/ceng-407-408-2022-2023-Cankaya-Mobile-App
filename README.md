@@ -11,3 +11,14 @@ Our project is Cankaya University Mobile Application. We aim to add QR Attendanc
 # Contents
 * [Project Web Page](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/wiki/Website)
 * [Project Report for CENG-407](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/blob/main/407_Report_CankayaMobileApp.pdf)
+
+----
+
+# Local development
+These instructions should get you set up ready to work on CankayaMobileApp 🙌
+
+## Getting Started
+1. Install `nvm` then `node` & `npm`: `brew install nvm && nvm install`
+2. Install dependencies: `npm install`
+
+You can use any IDE or code editing tool for developing on any platform. Use your favorite!
