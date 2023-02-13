@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 
 export default function Btn({ bgColor, btnLabel, textColor, Press }) {
