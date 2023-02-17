@@ -16,17 +16,6 @@ const styles = StyleSheet.create({
       },
     ],
   },
-  container: {
-    alignItems: "center",
-  },
-  backgroundFrame: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
-    borderRadius: 50,
-    width: 350,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });
 
 export default styles;

@@ -27,7 +27,7 @@ export default function MainContainer() {
       screenOptions={({ route }) => ({
         tabBarActiveTintColor: "#ffed02",
         tabBarInactiveTintColor: "white",
-        headerShown: true,
+        headerShown: false,
         tabBarStyle: {
           backgroundColor: "#373a4b",
         },
