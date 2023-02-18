@@ -1,9 +1,6 @@
-import { View, Text, Image } from "react-native";
+import { View} from "react-native";
 import React from "react";
-import { cankayaBlue, cankayaYellow } from "../src/Constants";
-import Btn from "../src/Btn";
-import Logo from "../assets/logo.png";
-import Back from "../components/Back";
+
 
 const Login = () => {
   return <View></View>;

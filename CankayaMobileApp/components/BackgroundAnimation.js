@@ -9,7 +9,7 @@ import {
   OUTPUT_RANGE_END,
   ANIMATION_TO_VALUE,
   ANIMATION_DURATION,
-} from "../src/Constants";
+} from "../src/constants";
 
 export default function BackgroundAnimation() {
   const initialValue = 0;

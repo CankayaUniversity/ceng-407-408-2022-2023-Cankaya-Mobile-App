@@ -1,5 +1,4 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -35,15 +34,15 @@ export default function MainContainer() {
           let iconName;
           let rn = route.name;
 
-          if (rn == homeName) {
+          if (rn === homeName) {
             iconName = focused ? "home" : "home-outline";
-          } else if (rn == announcement) {
+          } else if (rn === announcement) {
             iconName = focused ? "alert" : "alert-outline";
-          } else if (rn == qrName) {
+          } else if (rn === qrName) {
             iconName = focused ? "add-circle" : "add-circle-outline";
-          } else if (rn == profileName) {
+          } else if (rn === profileName) {
             iconName = focused ? "person" : "person-outline";
-          } else if (rn == surveyName) {
+          } else if (rn === surveyName) {
             iconName = focused ? "list" : "list-outline";
           }
 
