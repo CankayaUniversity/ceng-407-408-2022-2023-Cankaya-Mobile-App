@@ -8,6 +8,7 @@ import HomePage from "./screens/HomePage";
 import Profile from "./screens/Profile";
 import QR from "./screens/QR";
 import Survey from "./screens/Survey";
+import Back from "../components/Back";
 
 // Screen names
 
@@ -21,6 +22,7 @@ const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
   return (
+
     <Tab.Navigator
       initalRouteName={homeName}
       screenOptions={({ route }) => ({
