@@ -8,10 +8,8 @@ import HomePage from "./screens/HomePage";
 import Profile from "./screens/Profile";
 import QR from "./screens/QR";
 import Survey from "./screens/Survey";
-import Back from "../components/Back";
 
 // Screen names
-
 const homeName = "Home";
 const profileName = "Profile";
 const qrName = "QR";
@@ -19,7 +17,6 @@ const announcement = "Announcement";
 const surveyName = "Survey";
 
 const Tab = createBottomTabNavigator();
-
 export default function MainContainer() {
   return (
 
@@ -52,6 +49,7 @@ export default function MainContainer() {
         },
       })}
     >
+
       <Tab.Screen name={homeName} component={HomePage} />
       <Tab.Screen name={announcement} component={Announcement} />
       <Tab.Screen name={qrName} component={QR} />
