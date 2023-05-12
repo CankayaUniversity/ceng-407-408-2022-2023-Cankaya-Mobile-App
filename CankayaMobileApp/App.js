@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, {useEffect, useState} from "react";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {firebase} from "./config";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
-import Registration from "./screens/Registration";
 import Guest from "./screens/Guest";
 import {View} from "react-native";
-import Dashboard from "./components/Dashboard";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,8 +20,7 @@ function App() {
     }
 
     useEffect(() => {
-        const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber;
+        return firebase.auth().onAuthStateChanged(onAuthStateChanged);
     }, []);
 
     if (initializing) return <View><NavigationContainer/></View>
@@ -35,7 +32,6 @@ function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Registration" component={Registration} />
         <Stack.Screen name="Guest" component={Guest} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -46,8 +42,8 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name="Dashboard"
-                    component={Dashboard}
+                    name="Guest"
+                    component={Guest}
                 />
             </Stack.Navigator>
         </NavigationContainer>
