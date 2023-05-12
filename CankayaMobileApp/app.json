@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "name": "CankayaMobileApp",
     "slug": "CankayaMobileApp",
     "version": "1.0.0",
