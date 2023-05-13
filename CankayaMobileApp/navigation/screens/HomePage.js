@@ -5,7 +5,7 @@ import Back from "../../components/Back";
 
 export default function HomePage(navigation) {
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1,marginTop: -60}}>
             <Back/>
             <WebView
                 source={{
