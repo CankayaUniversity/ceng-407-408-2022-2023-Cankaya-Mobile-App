@@ -46,7 +46,7 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name="Guest"
+                    name=" "
                     component={Guest}
                 />
             </Stack.Navigator>
