@@ -6,6 +6,8 @@ import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Guest from "./screens/Guest";
 import {View} from "react-native";
+import TakeA from "./screens/TakeA";
+import ViewA from "./screens/ViewA";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,8 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Guest" component={Guest} />
+        <Stack.Screen name="TakeA" component={TakeA} />
+        <Stack.Screen name="ViewA" component={ViewA} />
       </Stack.Navigator>
     </NavigationContainer>
   );
