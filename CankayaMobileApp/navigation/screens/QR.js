@@ -1,47 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function App() {
-    const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
 
-    useEffect(() => {
-        const getBarCodeScannerPermissions = async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
-        };
 
-        getBarCodeScannerPermissions();
-    }, []);
+const TwoButtons = () => {
+  const navigation = useNavigation();
 
-    const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    };
-
-    if (hasPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
-    }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
-
-    return (
-        <View style={styles.container}>
-            <BarCodeScanner
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                style={StyleSheet.absoluteFillObject}
-            />
-            {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-        </View>
-    );
-}
+  const handleButton1Press = () => {
+   navigation.navigate('ViewA');
+  };
+  
+  const handleButton2Press = () => {
+    navigation.navigate('TakeA');
+  };  
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={handleButton1Press}>
+        <Text style={styles.buttonText}>Take Attendance</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleButton2Press}>
+        <Text style={styles.buttonText}>View Attendance</Text>
+      </TouchableOpacity>
+     
+    </View>
+    
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: 'yellow',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
+
+export default TwoButtons;
+
