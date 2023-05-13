@@ -46,7 +46,8 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name=" "
+                    options={{headerShown: false}}
+                    name="Guest"
                     component={Guest}
                 />
             </Stack.Navigator>
