@@ -13,7 +13,7 @@ const QRLecturer = () => {
         navigation.navigate('TakeA');
     };
     const handleButton3Press = () => {
-        navigation.navigate('Camera');
+        navigation.navigate('QRStudent');
     }
     return (
         <View style={styles.container}>
