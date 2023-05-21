@@ -11,6 +11,8 @@ import {
   ANIMATION_DURATION,
 } from "../src/constants";
 
+const AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
+
 export default function BackgroundAnimation() {
   const initialValue = 0;
   const translateValue = useRef(new Animated.Value(initialValue)).current;
@@ -33,8 +35,6 @@ export default function BackgroundAnimation() {
     inputRange: [INPUT_RANGE_START, INPUT_RANGE_END],
     outputRange: [OUTPUT_RANGE_START, OUTPUT_RANGE_END],
   });
-
-  const AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
 
   return (
     <AnimatedImage
