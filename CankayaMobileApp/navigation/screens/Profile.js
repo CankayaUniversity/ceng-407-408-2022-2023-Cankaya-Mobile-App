@@ -1,23 +1,32 @@
-
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
-
-const dataHomePage = [
-    {id: 1, header1: 'Name Surname', header2: 'Beste Alptekin'},
-    {id: 2, header1: 'Student No', header2: ''},
-    {id: 3, header1: 'Class', header2: ''},
-    {id: 4, header1: 'Faculty', header2: ''},
-    {id: 5, header1: 'Department', header2: ''},
-    {id: 6, header1: 'Programme', header2: ''},
-    {id: 7, header1: 'Curriculum Name', header2: ''},
-    {id: 8, header1: 'Cumulative GPA Ranking in Your Class', header2: ''},
-];
+import {useEffect, useState} from "react";
+import {useUser} from "../../src/context";
 
 const TableHomePage = () => {
+    const [profileLines, setProfileLines] = useState();
+    const {user} = useUser();
+
+    const getProfileLines = () => {
+        return [
+            {id: 1, header1: 'Name Surname', header2: [user.firstName, user.lastName].join(' ')},
+            {id: 2, header1: 'Student No', header2: user.studentID},
+            {id: 3, header1: 'Class', header2: user.className},
+            {id: 4, header1: 'Faculty', header2: user.facultyName},
+            {id: 5, header1: 'Department', header2: user.departmentName}
+        ];
+    };
+
+    useEffect(() => {
+        if (user) {
+            const profileLines_ = getProfileLines();
+            setProfileLines(profileLines_);
+        }
+    }, [user]);
+
     const renderRow = ({item, index}) => (
         <View style={[styles_HomePage.row, {backgroundColor: index % 2 === 0 ? 'white' : 'lightgray'}]}>
             <View style={styles_HomePage.cell}>
@@ -33,7 +42,7 @@ const TableHomePage = () => {
 
         <View style={styles_HomePage.container}>
             <Text style={{ fontSize: 30, backgroundColor:"#f9bf3b"}}>Personal Information</Text>
-            <FlatList data={dataHomePage} keyExtractor={(item) => item.id.toString()} renderItem={renderRow} />
+            <FlatList data={profileLines} keyExtractor={(item) => item.id.toString()} renderItem={renderRow} />
         </View>
     );
 };
