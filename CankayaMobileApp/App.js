@@ -12,7 +12,7 @@ import AppContext, {useUser} from "./src/context";
 
 import TakeA from "./screens/TakeA";
 import ViewA from "./screens/ViewA";
-import Camera from "./screens/Camera";
+import QRStudent from "./navigation/screens/QRStudent";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +44,7 @@ const Main = () => {
                     />
                     <Stack.Screen name="TakeA" component={TakeA}/>
                     <Stack.Screen name="ViewA" component={ViewA}/>
-                    <Stack.Screen name="Camera" component={Camera} />
+                    <Stack.Screen name="QRStudent" component={QRStudent}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
