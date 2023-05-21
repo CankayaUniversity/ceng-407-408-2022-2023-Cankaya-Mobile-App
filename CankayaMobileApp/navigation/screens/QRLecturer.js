@@ -12,6 +12,9 @@ const QRLecturer = () => {
     const handleButton2Press = () => {
         navigation.navigate('TakeA');
     };
+    const handleButton3Press = () => {
+        navigation.navigate('Camera');
+    }
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.button} onPress={handleButton1Press}>
@@ -19,6 +22,9 @@ const QRLecturer = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleButton2Press}>
                 <Text style={styles.buttonText}>View Attendance</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleButton3Press}>
+                <Text style={styles.buttonText}>Camera</Text>
             </TouchableOpacity>
 
         </View>
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: 'yellow',
+        backgroundColor: "#f9bf3b",
         paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 5,
