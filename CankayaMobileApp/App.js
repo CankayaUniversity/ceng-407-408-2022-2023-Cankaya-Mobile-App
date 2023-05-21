@@ -10,6 +10,9 @@ import Guest from "./screens/Guest";
 import {findUserByEmail} from "./src/firestoreQueries";
 import AppContext, {useUser} from "./src/context";
 
+import TakeA from "./screens/TakeA";
+import ViewA from "./screens/ViewA";
+
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
@@ -38,6 +41,8 @@ const Main = () => {
                         name="Guest"
                         component={Guest}
                     />
+                    <Stack.Screen name="TakeA" component={TakeA}/>
+                    <Stack.Screen name="ViewA" component={ViewA}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
