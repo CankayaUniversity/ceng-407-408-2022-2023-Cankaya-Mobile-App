@@ -1,18 +1,27 @@
 import {View, Text, SafeAreaView, Linking, TextInput, StyleSheet, TouchableOpacity} from "react-native";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {useNavigation} from "@react-navigation/native";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+
 import BackgroundAnimation from "../components/BackgroundAnimation";
 import Logo from "../components/Logo";
-import {useNavigation} from "@react-navigation/native";
-import {firebase} from "../config";
+
+import {firebaseAuth} from "../src/utils/firebaseHelper";
+
+import {checkLecturer, checkStudent, findUserByEmailAndPassword} from "../src/firestoreQueries";
+import {useUser} from "../src/context";
 
 const Home = (props) => {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [waitForVerification, setWaitForVerification] = useState();
+    const [userInFirebaseAuth, setUserInFirebaseAuth] = useState();
+    const {user, setUser} = useUser();
 
     //forget password
     const forgetPassword = () => {
-        firebase.auth().sendPasswordResetEmail(email)
+        firebaseAuth.sendPasswordResetEmail(email)
             .then(() => {
                 alert("Password reset email sent")
             }).catch((error) => {
@@ -20,37 +29,64 @@ const Home = (props) => {
         })
     }
 
-    const handleLogin = () => {
-        //debugger;
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                userCredential.user.sendEmailVerification({
-                    handleCodeInApp: true,
-                    url: 'https://cankaya-mobile-app.firebaseapp.com',
-                })
-                    .then(() => {
-                        alert('Verification email sent')
-                    }).catch((error) => {
-                    alert(error.message)
-                })
-                    .then(() => {
-                        firebase.firestore().collection('users')
-                            .doc(firebase.auth().currentUser.uid)
-                            .set({
-                                email,
-                            })
-                    })
-                    .catch((error) => {
-                        alert(error.message)
-                    })
+    const handleLogin = async () => {
+        const userDB_ = await findUserByEmailAndPassword({ email, password });
+        setUser(userDB_);
 
-            })
-            .catch((error) => {
-                        // If registration fails, handle the error appropriately
-                        alert(error.message);
-                    });
+        let userCredentialsFirebaseAuth;
+        try {
+            userCredentialsFirebaseAuth = await signInWithEmailAndPassword(firebaseAuth, email, password);
+        } catch (e) {
+            if(e.code === "auth/user-not-found") {
+                console.warn(`${email} user not found in Firebase Auth. Creating the user on Firebase Auth...`);
+                userCredentialsFirebaseAuth = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+            } else {
+                throw e;
+            }
+        }
 
+        setUserInFirebaseAuth(userCredentialsFirebaseAuth.user);
+
+        if (!userCredentialsFirebaseAuth.user.emailVerified) {
+            await sendEmailVerification(userCredentialsFirebaseAuth.user);
+            setWaitForVerification(true);
+            return props.navigation.navigate("Login");
+        }
+
+        return props.navigation.navigate("Guest");
     };
+
+    const deviceCheck = async () => {
+        const isStudent = await checkStudent({ userID: user.id });
+
+        if (isStudent) {
+            // const deviceUniqueID = await getUniqueId();
+            console.log("device check...");
+            // console.log("device id", deviceUniqueID);
+        }
+
+        props.navigation.navigate("Guest");
+    };
+
+    useEffect(() => {
+        if (waitForVerification && userInFirebaseAuth) {
+            const interval = setInterval(async () => {
+                await userInFirebaseAuth.reload();
+
+                const newUser = firebaseAuth.currentUser;
+
+                if (newUser.emailVerified) {
+                    clearInterval(interval);
+                    setWaitForVerification(false);
+                    setUserInFirebaseAuth({...newUser.toJSON()});
+                    setUser({...user, emailVerified: true});
+                    deviceCheck();
+                }
+            }, 2000);
+
+            return () => clearInterval(interval);
+        }
+    }, [waitForVerification, userInFirebaseAuth])
 
     return (
         <>
@@ -80,8 +116,10 @@ const Home = (props) => {
                         <TouchableOpacity style={styles.button}
                                           onPress={() => {
                                               handleLogin(email, password)
-                                              //debugger;
-                                              props.navigation.navigate("Login")
+                                                  .catch((error) => {
+                                                  // If registration fails, handle the error appropriately
+                                                  alert(error.message || error);
+                                              })
                                           }}
                         >
                             <Text style={styles.text1}>Login</Text>
