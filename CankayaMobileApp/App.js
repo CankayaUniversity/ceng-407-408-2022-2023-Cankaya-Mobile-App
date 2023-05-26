@@ -14,6 +14,10 @@ import TakeA from "./screens/TakeA";
 import ViewA from "./screens/ViewA";
 import QRStudent from "./navigation/screens/QRStudent";
 
+import Survey1 from "./screens/Survey1";
+import Survey2 from "./screens/Survey2";
+import Survey3 from "./screens/Survey3";
+
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
@@ -45,6 +49,9 @@ const Main = () => {
                     <Stack.Screen name="TakeA" component={TakeA}/>
                     <Stack.Screen name="ViewA" component={ViewA}/>
                     <Stack.Screen name="QRStudent" component={QRStudent}/>
+                    <Stack.Screen name="Survey1" component={Survey1}/>
+                    <Stack.Screen name="Survey2" component={Survey2}/>
+                    <Stack.Screen name="Survey3" component={Survey3}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
