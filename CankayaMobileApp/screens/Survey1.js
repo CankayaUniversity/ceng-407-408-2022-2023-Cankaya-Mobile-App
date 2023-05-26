@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, ImageBackground, TextInput, StyleSheet } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 const Survey1 = () => {
@@ -25,19 +25,12 @@ const Survey1 = () => {
   };
 
   const handleSubmit = () => {
-    // Handle submit logic here
-  }
-
-  // const handleSubmit = () => {
-  //   console.log('Attendance:', question1);
-  //   console.log('CPGA:', question2);
-  //   console.log('Question 3:', question3);
-  //   console.log('Question 4:', question4);
-  // };
+    // Handle submit logic
+  };
 
   return (
     <ScrollView>
-      <Text style={{backgroundColor: '#ADD8E6', fontSize: 18, fontWeight: 'bold'}}>Attendance:</Text>
+      <Text style={styles.questionTitle}>Your Attendance:</Text>
       <RadioButton.Group onValueChange={handleQuestion1Change} value={question1}>
         <RadioButton.Item label="%25<" value="option1" />
         <RadioButton.Item label="%25 - %49" value="option2" />
@@ -46,7 +39,7 @@ const Survey1 = () => {
         <RadioButton.Item label="%50 - %74" value="option5" />
       </RadioButton.Group>
 
-      <Text style={{backgroundColor: '#ADD8E6', fontSize: 18, fontWeight: 'bold'}}>CGPA:</Text>
+      <Text style={styles.questionTitle}>Your CGPA:</Text>
       <RadioButton.Group onValueChange={handleQuestion2Change} value={question2}>
         <RadioButton.Item label="1.69<" value="option1" />
         <RadioButton.Item label="1.70 - 1.99" value="option2" />
@@ -56,7 +49,7 @@ const Survey1 = () => {
         <RadioButton.Item label="3.50 - 4.00" value="option6" />
       </RadioButton.Group>
 
-      <Text style={{backgroundColor: '#ADD8E6', fontSize: 18, fontWeight: 'bold'}}>Question 2:</Text>
+      <Text style={styles.questionTitle}>1. This course has provided the ability to perform network routing.</Text>
       <RadioButton.Group onValueChange={handleQuestion3Change} value={question3}>
         <RadioButton.Item label="Strongly Agree" value="option1" />
         <RadioButton.Item label="Agree" value="option2" />
@@ -65,22 +58,15 @@ const Survey1 = () => {
         <RadioButton.Item label="Strongly Disagree" value="option5" />
       </RadioButton.Group>
 
-      <Text style={{backgroundColor: '#ADD8E6', fontSize: 18, fontWeight: 'bold'}}>Question 3:</Text>
-      <TextInput
-        value={question4}
-        onChangeText={handleQuestion4Change}
-        style={{
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-        padding: 10,
-        marginVertical: 10,
-        fontSize: 14,
-  }}
-/>
-      {/* <TouchableOpacity onPress={handleSubmit}>
-        <Text>Submit</Text>
-      </TouchableOpacity> */}
+      <Text style={styles.questionTitle}>2. This course has provided the ability to program networking.</Text>
+      <RadioButton.Group onValueChange={handleQuestion4Change} value={question4}>
+        <RadioButton.Item label="Strongly Agree" value="option1" />
+        <RadioButton.Item label="Agree" value="option2" />
+        <RadioButton.Item label="Neutral" value="option3" />
+        <RadioButton.Item label="Disagree" value="option4" />
+        <RadioButton.Item label="Strongly Disagree" value="option5" />
+      </RadioButton.Group>
+
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
@@ -89,12 +75,28 @@ const Survey1 = () => {
 };
 
 const styles = StyleSheet.create({
+  questionTitle: {
+    backgroundColor: '#ADD8E6',
+    fontSize: 18,
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  inputLarge: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 10,
+    fontSize: 14,
+    height: 100, // Set the height for the enlarged text
+    textAlignVertical: 'top', // Place the text at the top of the input
+  },
   submitButton: {
     backgroundColor: '#ADD8E6',
     borderRadius: 5,
     padding: 10,
     alignItems: 'center',
-    marginVertical: 20,
+    marginTop: 20,
   },
   submitButtonText: {
     fontSize: 18,
