@@ -5,22 +5,22 @@ import { useNavigation } from '@react-navigation/native';
 
 const Survey = () => {
   const navigation = useNavigation();
-  const [selectedSurvey, setSelectedSurvey] = useState('survey1');
+  const [selectedSurvey, setSelectedSurvey] = useState('Surveys');
 
   const handleSurveySelection = (value) => {
     setSelectedSurvey(value);
-    if (value === 'survey1') {
+    if (value === 'Survey1') {
       navigation.navigate('Survey1');
-    } else if (value === 'survey2') {
+    } else if (value === 'Survey2') {
       navigation.navigate('Survey2');
-    } else if (value === 'survey3') {
+    } else if (value === 'Survey3') {
       navigation.navigate('Survey3');
     }
 };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Survey</Text>
+      <Text style={styles.title}>Choose a Survey to fill:</Text>
       <Picker
         selectedValue={selectedSurvey}
         onValueChange={handleSurveySelection}
@@ -45,8 +45,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  picker: {
+  pickerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '80%',
   },
+  picker: {
+    width: '100%',
+  },
 });
+
 export default Survey;
