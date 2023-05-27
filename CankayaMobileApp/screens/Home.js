@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 55,
     },
     text1: {
         color: 'black',
