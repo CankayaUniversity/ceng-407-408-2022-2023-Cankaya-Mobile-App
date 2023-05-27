@@ -27,7 +27,7 @@ const SelectionScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Lütfen seçiminizi yapın:</Text>
+      <Text style={styles.text}>Please choose a course:</Text>
       <DropDownPicker
         items={items}
         defaultValue={selectedValue}
@@ -36,6 +36,7 @@ const SelectionScreen = () => {
         itemStyle={styles.dropdownItem}
         labelStyle={styles.dropdownLabel}
         onChangeItem={item => setSelectedValue(item.value)}
+        placeholder="Select a course"
       />
       {qrValue && (
         <View style={styles.qrContainer}>
