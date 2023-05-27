@@ -39,7 +39,7 @@ const Survey2 = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Text style={styles.questionTitle}>Choose your attendance percentage range.</Text>
       <RadioButton.Group onValueChange={handleQuestion1Change} value={question1}>
         <RadioButton.Item label="%25<" value="option1" />
@@ -101,6 +101,10 @@ const Survey2 = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 23,
+    padding: 8,
+  },
   questionTitle: {
     backgroundColor: '#ADD8E6',
     fontSize: 18,
