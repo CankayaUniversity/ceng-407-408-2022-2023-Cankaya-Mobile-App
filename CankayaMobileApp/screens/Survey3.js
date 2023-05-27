@@ -68,8 +68,8 @@ const Survey3 = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    padding: 20,
+    marginTop: 23,
+    padding: 8,
   },
   questionContainer: {
     marginBottom: 20,
