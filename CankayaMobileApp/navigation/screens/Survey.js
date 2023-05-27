@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,7 +19,7 @@ const Survey = () => {
 };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Choose a Survey to fill:</Text>
       <Picker
         selectedValue={selectedSurvey}
@@ -30,7 +30,7 @@ const Survey = () => {
         <Picker.Item label="Lecturer Survey" value="Survey2" />
         <Picker.Item label="University Survey" value="Survey3" />
       </Picker>
-    </View>
+    </SafeAreaView>
   );
 };
 
