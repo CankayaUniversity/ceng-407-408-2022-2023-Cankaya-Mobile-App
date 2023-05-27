@@ -26,9 +26,9 @@ const Survey = () => {
         onValueChange={handleSurveySelection}
         style={styles.picker}
       >
-        <Picker.Item label="Survey 1" value="Survey1" />
-        <Picker.Item label="Survey 2" value="Survey2" />
-        <Picker.Item label="Survey 3" value="Survey3" />
+        <Picker.Item label="Course Survey" value="Survey1" />
+        <Picker.Item label="Lecturer Survey" value="Survey2" />
+        <Picker.Item label="University Survey" value="Survey3" />
       </Picker>
     </View>
   );
