@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, SafeAreaView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 const Survey2 = () => {
@@ -39,7 +39,8 @@ const Survey2 = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView>
+    <ScrollView>
       <Text style={styles.questionTitle}>Choose your attendance percentage range.</Text>
       <RadioButton.Group onValueChange={handleQuestion1Change} value={question1}>
         <RadioButton.Item label="%25<" value="option1" />
@@ -97,14 +98,11 @@ const Survey2 = () => {
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
+</SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 23,
-    padding: 8,
-  },
   questionTitle: {
     backgroundColor: '#ADD8E6',
     fontSize: 18,
