@@ -3,7 +3,7 @@ import { SafeAreaView, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
-const Survey = () => {
+const SurveyLecturer = () => {
   const navigation = useNavigation();
   const [selectedSurvey, setSelectedSurvey] = useState('Surveys');
 
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Survey;
+export default SurveyLecturer;
