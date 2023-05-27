@@ -3,10 +3,9 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  ImageBackground,
   TextInput,
   StyleSheet,
-  View,
+  View, SafeAreaView,
 } from 'react-native';
 
 const Survey3 = () => {
@@ -31,7 +30,8 @@ const Survey3 = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView>
+    <ScrollView>
       <View style={styles.questionContainer}>
         <Text style={styles.questionTitle}>1. Name 3 most favourite things about Çankaya University:</Text>
         <TextInput
@@ -63,14 +63,11 @@ const Survey3 = () => {
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
+</SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 23,
-    padding: 8,
-  },
   questionContainer: {
     marginBottom: 20,
   },
