@@ -6,7 +6,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Announcement from "./screens/Announcement";
 import HomePage from "./screens/HomePage";
 import Profile from "./screens/Profile";
-import Survey from "./screens/Survey";
+import SurveyLecturer from "./screens/SurveyLecturer";
+import SurveyStudent from "./screens/SurveyStudent";
 import QRLecturer from "./screens/QRLecturer";
 import QRStudent from "./screens/QRStudent";
 import {useUser} from "../src/context";
@@ -66,7 +67,16 @@ export default function MainContainer() {
                 )
             }
             <Tab.Screen name={profileName} component={Profile}/>
-            <Tab.Screen name={surveyName} component={Survey}/>
+            {
+                user?.isStudent && (
+                    <Tab.Screen name={surveyName} component={SurveyStudent}/>
+                )
+            }
+            {
+                user?.isLecturer && (
+                    <Tab.Screen name={surveyName} component={SurveyLecturer}/>
+                )
+            }
         </Tab.Navigator>
     );
 }
