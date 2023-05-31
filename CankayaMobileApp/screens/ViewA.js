@@ -86,6 +86,12 @@ const DropdownList = () => {
                     ))}
                 </View>
             )}
+            <TouchableOpacity
+                style={styles.ViewAttendanceButton}
+                //onPress={..}
+            >
+                <Text style={styles.ViewAttendanceButtonText}>View Attendance</Text>
+            </TouchableOpacity>
             {renderTable()}
         </View>
     );
@@ -97,6 +103,18 @@ const styles = StyleSheet.create({
         marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    ViewAttendanceButton: {
+        width: 200,
+        height: 40,
+        backgroundColor: '#ccc',
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    ViewAttendanceButtonText: {
+        fontSize: 16,
+        color: '#fff',
     },
     dropdownButton: {
         flexDirection: 'row',
