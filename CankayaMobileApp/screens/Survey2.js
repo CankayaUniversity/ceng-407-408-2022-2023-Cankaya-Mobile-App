@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, SafeAreaView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import { submitSurveyToFirestore } from '../src/firestoreQueries/index';
 
 const Survey2 = () => {
   const [question1, setQuestion1] = useState('');
@@ -27,15 +28,33 @@ const Survey2 = () => {
   };
 
   const handleQuestion5Change = (value) => {
-    setQuestion4(value);
+    setQuestion5(value);
   };
 
   const handleQuestion6Change = (value) => {
-    setQuestion4(value);
+    setQuestion6(value);
   };
 
-  const handleSubmit = () => {
-    // Handle submit logic
+  const handleSubmit = async () => {
+    try {
+      // Created a new survey object with the survey_id set to 2
+      const surveyData = {
+        // survey_id: 2,
+        question1: question1,
+        question2: question2,
+        question3: question3,
+        question4: question4,
+        question5: question5,
+        question6: question6,
+      };
+  
+      await submitSurveyToFirestore(2, 'LecturerSurvey', surveyData); // Pass surveyId as 2 and surveyType as 'LecturerSurvey' for Survey2
+
+      console.log('Survey 2 data stored successfully!');
+      alert('Successfull!'); // Show success message to the user
+    } catch (error) {
+      console.error('Error storing survey 2 data:', error);
+    }
   };
 
   return (
