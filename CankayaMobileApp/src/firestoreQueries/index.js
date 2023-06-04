@@ -1,10 +1,24 @@
-import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {collection, doc, addDoc, setDoc, getDoc, getDocs, query, where} from "firebase/firestore";
 
 import {firestore} from "../utils/firebaseHelper";
 
 const usersRef = collection(firestore, "users");
 const studentsRef = collection(firestore, "student");
 const lecturersRef = collection(firestore, "lecturer");
+
+export const submitSurveyToFirestore = async (surveyId, surveyType, surveyData) => {
+    try {
+      const surveyRef = collection(firestore, 'survey');
+      const docRef = await addDoc(surveyRef, {
+        survey_id: surveyId,
+        type: surveyType,
+        ...surveyData,
+      });
+      console.log('Survey data stored successfully! Document ID:', docRef.id);
+    } catch (error) {
+      console.error('Error storing survey data:', error);
+    }
+  };
 
 export const findUserByEmailAndPassword = async ({email, password}) => {
     const querySnapshot = await getDocs(
