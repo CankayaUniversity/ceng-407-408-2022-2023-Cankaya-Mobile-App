@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import { submitSurveyToFirestore } from '../src/firestoreQueries/index';
 
 const Survey1 = () => {
   const [question1, setQuestion1] = useState('');
@@ -24,8 +25,25 @@ const Survey1 = () => {
     setQuestion4(value);
   };
 
-  const handleSubmit = () => {
-    // Handle submit logic
+  const handleSubmit = async () => {
+    try {
+      // Created a new survey object with the survey_id set to 1
+      const surveyData = {
+        // survey_id: 1,
+        question1: question1,
+        question2: question2,
+        question3: question3,
+        question4: question4,
+      };
+  
+      // Store the survey object in Firestore
+      await submitSurveyToFirestore(1, 'CourseSurvey', surveyData); // Pass surveyId as 1 and surveyType as 'CourseSurvey' for Survey1
+      
+      console.log('Survey 1 data stored successfull!');
+      alert('Successfull!'); // Show success message to the user
+    } catch (error) {
+      console.error('Error storing survey 1 data:', error);
+    }
   };
 
   return (
