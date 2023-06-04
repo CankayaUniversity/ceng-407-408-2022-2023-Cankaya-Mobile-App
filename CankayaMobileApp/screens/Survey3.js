@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View, SafeAreaView,
 } from 'react-native';
+import { submitSurveyToFirestore } from '../src/firestoreQueries/index';
 
 const Survey3 = () => {
   const [question1, setQuestion1] = useState('');
@@ -25,8 +26,23 @@ const Survey3 = () => {
     setQuestion3(value);
   };
 
-  const handleSubmit = () => {
-    // Handle submit logic
+  const handleSubmit = async () => {
+    try {
+      // Created a new survey object with the survey_id set to 1
+      const surveyData = {
+        // survey_id: 3,
+        question1: question1,
+        question2: question2,
+        question3: question3,
+      };
+  
+      await submitSurveyToFirestore(3, 'UniversitySurvey', surveyData); // Pass surveyId as 3 and surveyType as 'UniversitySurvey' for Survey3
+
+      console.log('Survey 3 data stored successfully!');
+      alert('Successfull!'); // Show success message to the user
+    } catch (error) {
+      console.error('Error storing survey 3 data:', error);
+    }
   };
 
   return (
