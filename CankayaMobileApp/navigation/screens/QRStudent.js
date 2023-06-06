@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Button} from 'react-native';
+import {useNavigation} from "@react-navigation/native";
 import {BarCodeScanner} from 'expo-barcode-scanner';
+import {getBusByPlateNumber, saveBusCheck} from "../../src/firestoreQueries";
+import {useUser} from "../../src/context";
 
 const QRStudent = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
+
+    const {user} = useUser();
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         const getBarCodeScannerPermissions = async () => {
@@ -15,9 +22,20 @@ const QRStudent = () => {
         getBarCodeScannerPermissions();
     }, []);
 
-    const handleBarCodeScanned = ({type, data}) => {
+    const handleBarCodeScanned = async ({type, data}) => {
         setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        const bus = await getBusByPlateNumber({ plateNumber: data });
+
+        if (bus) {
+            // alert("VALID!");
+            // ekran göster
+            navigation.navigate('QRResult');
+            // Save buscheck
+
+            await saveBusCheck({ user: user, plateNumber: data, busID: bus.bid })
+        } else {
+            alert('QR Code is not valid!', data);
+        }
     };
 
     if (hasPermission === null) {
