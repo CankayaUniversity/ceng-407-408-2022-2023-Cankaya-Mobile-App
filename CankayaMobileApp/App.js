@@ -1,22 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import { signOut } from "firebase/auth";
+
+import {initiateDeviceID} from "./src/utils/deviceIDManager";
 
 import {firebaseAuth} from "./src/utils/firebaseHelper";
 import Home from "./screens/Home";
-import Login from "./screens/Login";
-import Guest from "./screens/Guest";
 import {findUserByEmail} from "./src/firestoreQueries";
 import AppContext, {useUser} from "./src/context";
-
 import TakeA from "./screens/TakeA";
 import ViewA from "./screens/ViewA";
 import QRStudent from "./navigation/screens/QRStudent";
-
 import Survey1 from "./screens/Survey1";
 import Survey2 from "./screens/Survey2";
 import Survey3 from "./screens/Survey3";
+import DeviceCheckMessage from "./screens/DeviceCheckMessage";
+import MailCheckMessage from "./screens/MailCheckMessage";
+import QRResult from "./navigation/screens/QRResult";
+import MainContainer from "./navigation/MainContainer";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +33,8 @@ const Main = () => {
     }
 
     useEffect(() => {
-        // signOut(firebaseAuth);
+        initiateDeviceID();
+
         return firebaseAuth.onAuthStateChanged(onAuthStateChanged);
     }, []);
 
@@ -40,11 +43,11 @@ const Main = () => {
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="Home" component={Home}/>
-                    <Stack.Screen name="Login" component={Login}/>
+                    <Stack.Screen name="MailCheckMessage" component={MailCheckMessage}/>
                     <Stack.Screen
                         options={{headerShown: false}}
-                        name="Guest"
-                        component={Guest}
+                        name="MainContainer"
+                        component={MainContainer}
                     />
                     <Stack.Screen name="TakeA" component={TakeA}/>
                     <Stack.Screen name="ViewA" component={ViewA}/>
@@ -52,6 +55,8 @@ const Main = () => {
                     <Stack.Screen name="Survey1" component={Survey1}/>
                     <Stack.Screen name="Survey2" component={Survey2}/>
                     <Stack.Screen name="Survey3" component={Survey3}/>
+                    <Stack.Screen name="DeviceCheckMessage" component={DeviceCheckMessage}/>
+                    <Stack.Screen name="QRResult" component={QRResult}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -62,8 +67,8 @@ const Main = () => {
             <Stack.Navigator>
                 <Stack.Screen
                     options={{headerShown: false}}
-                    name="Guest"
-                    component={Guest}
+                    name="MainContainer"
+                    component={MainContainer}
                 />
             </Stack.Navigator>
         </NavigationContainer>
