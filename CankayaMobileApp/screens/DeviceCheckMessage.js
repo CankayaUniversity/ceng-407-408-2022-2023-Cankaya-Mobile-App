@@ -1,8 +1,8 @@
-import {SafeAreaView, StyleSheet, Text, View} from "react-native";
 import React from "react";
 import Back from "../components/Back";
 
 const Login = () => {
+const DeviceCheckMessage = () => {
     return <SafeAreaView style={styles.container}>
         <View>
             <Back/>
@@ -12,48 +12,15 @@ const Login = () => {
                 <Text style={styles.text2}>Important note: When you confirm the activation, the identity of the phone
                     you are logged into will be saved in this e-mail, and you cannot enter this phone with another
                     e-mail or log in to a different phone with your e-mail.</Text>
+                <Text style={{alignSelf: "center"}}>This device is not matched with saved one.</Text>
+                <Text style={styles.text2}>Please communicate with Computer Center to save your new device.</Text>
             </View>
         </View>
     </SafeAreaView>;
 };
 
 export default Login;
+export default DeviceCheckMessage;
 
 const styles = StyleSheet.create({
     container: {
-        alignContent: "center",
-    },
-    inputView: {
-        marginTop: 100,
-    },
-    button: {
-        backgroundColor: '#E2D102',
-        borderRadius: 100,
-        alignItems: "center",
-        width: 150,
-        paddingVertical: 10,
-        marginVertical: 5,
-    },
-    button2: {
-        backgroundColor: 'white',
-        borderRadius: 100,
-        alignItems: "center",
-        width: 150,
-        paddingVertical: 10,
-        marginVertical: 5,
-    },
-    buttonView: {
-        alignItems: "center",
-    },
-    text1: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: "bold"
-    },
-    text2: {
-        alignSelf: "center",
-        color: 'red',
-        fontSize: 15,
-        fontWeight: "bold",
-    },
-})
