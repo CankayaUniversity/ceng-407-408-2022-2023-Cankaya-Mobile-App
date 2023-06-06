@@ -18,45 +18,45 @@ const DropdownList = () => {
   };
 
   const handleCreateQR = () => {
-    
+
     console.log('QR kod oluşturuldu');
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.dropdownButton}
-        onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-      >
-        <Text style={styles.dropdownButtonText}>
-          {selectedOption ? selectedOption : 'Choose a course'}
-        </Text>
-        <Icon
-          name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
-          size={20}
-          color="#000"
-        />
-      </TouchableOpacity>
-      {isDropdownOpen && (
-        <View style={styles.dropdownList}>
-          {options.map((option) => (
-            <TouchableOpacity
-              key={option.value}
-              style={styles.dropdownListItem}
-              onPress={() => handleOptionSelect(option)}
-            >
-              <Text style={styles.dropdownListItemText}>{option.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      )}
-      <TouchableOpacity
-        style={styles.createQRButton}
-        onPress={handleCreateQR}
-      >
-        <Text style={styles.createQRButtonText}>Create QR</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.dropdownButton}
+            onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          <Text style={styles.dropdownButtonText}>
+            {selectedOption ? selectedOption : 'Choose a course'}
+          </Text>
+          <Icon
+              name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
+              size={20}
+              color="#000"
+          />
+        </TouchableOpacity>
+        {isDropdownOpen && (
+            <View style={styles.dropdownList}>
+              {options.map((option) => (
+                  <TouchableOpacity
+                      key={option.value}
+                      style={styles.dropdownListItem}
+                      onPress={() => handleOptionSelect(option)}
+                  >
+                    <Text style={styles.dropdownListItemText}>{option.label}</Text>
+                  </TouchableOpacity>
+              ))}
+            </View>
+        )}
+        <TouchableOpacity
+            style={styles.createQRButton}
+            onPress={handleCreateQR}
+        >
+          <Text style={styles.createQRButtonText}>Create QR</Text>
+        </TouchableOpacity>
+      </View>
   );
 };
 
