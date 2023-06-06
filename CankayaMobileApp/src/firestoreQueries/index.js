@@ -1,24 +1,11 @@
-import {collection, doc, addDoc, setDoc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {addDoc, collection, doc, updateDoc, getDocs, query, where} from "firebase/firestore";
 
 import {firestore} from "../utils/firebaseHelper";
 
 const usersRef = collection(firestore, "users");
 const studentsRef = collection(firestore, "student");
 const lecturersRef = collection(firestore, "lecturer");
-
-export const submitSurveyToFirestore = async (surveyId, surveyType, surveyData) => {
-    try {
-      const surveyRef = collection(firestore, 'survey');
-      const docRef = await addDoc(surveyRef, {
-        survey_id: surveyId,
-        type: surveyType,
-        ...surveyData,
-      });
-      console.log('Survey data stored successfully! Document ID:', docRef.id);
-    } catch (error) {
-      console.error('Error storing survey data:', error);
-    }
-  };
+const buscheckRef = collection(firestore, "buscheck")
 
 export const findUserByEmailAndPassword = async ({email, password}) => {
     const querySnapshot = await getDocs(
@@ -36,7 +23,7 @@ export const findUserByEmailAndPassword = async ({email, password}) => {
     };
 
     if (user.password === password) {
-        const filledUser = await fillUser({ user });
+        const filledUser = await fillUser({user});
         return filledUser;
     }
 
@@ -55,8 +42,10 @@ export const checkStudent = async ({userID}) => {
     }
 
     const student = querySnapshot.docs[0];
+    const {userRef: userRef_, ...studentData} = student.data();
+
     return {
-        ...student.data(),
+        ...studentData,
         sid: student.id
     };
 }
@@ -73,8 +62,9 @@ export const checkLecturer = async ({userID}) => {
     }
 
     const lecturer = querySnapshot.docs[0];
+    const {lecturerRef: lecturerRef_, ...lecturerData} = lecturer.data();
     return {
-        ...lecturer.data(),
+        ...lecturerData,
         lid: lecturer.id
     };
 }
@@ -107,6 +97,53 @@ export const findUserByEmail = async ({email}) => {
         id: user_.id
     };
 
-    const filledUser = await fillUser({ user });
+    const filledUser = await fillUser({user});
     return filledUser;
 };
+
+export const saveDeviceIDToStudent = async (studentID, {deviceID, newDeviceAllowed = false}) => {
+    const studentRef = doc(firestore, "student", studentID);
+
+    await updateDoc(studentRef, {
+        deviceID: deviceID,
+        newDeviceAllowed: newDeviceAllowed
+    });
+}
+
+export const getBusByPlateNumber = async ({plateNumber}) => {
+    const q = query(
+        collection(firestore, "bus"),
+        where("plate_number", "==", plateNumber)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+        return undefined;
+    }
+
+    const bus = querySnapshot.docs[0];
+    const busChecks = querySnapshot.map(buscheck => buscheck.data());
+    const busData = bus.data();
+
+    return {
+        ...busData,
+        bid: bus.id
+    };
+}
+
+export const saveBusCheck = async ({user, plateNumber, busID}) => {
+    const busCheckData = {
+        plate_number: plateNumber,
+        date: new Date(),
+        bus_id: busID
+    };
+
+    if (user.isStudent) {
+        busCheckData.student_id = user.sid
+    } else if (user.isLecturer) {
+        busCheckData.lecturer_id = user.lid
+    }
+
+    await addDoc(buscheckRef, busCheckData);
+}
