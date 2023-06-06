@@ -1,14 +1,15 @@
 import {View, Text, SafeAreaView, Linking, TextInput, StyleSheet, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 import BackgroundAnimation from "../components/BackgroundAnimation";
 import Logo from "../components/Logo";
 
 import {firebaseAuth} from "../src/utils/firebaseHelper";
+import {getDeviceID} from "../src/utils/deviceIDManager";
 
-import {checkLecturer, checkStudent, findUserByEmailAndPassword} from "../src/firestoreQueries";
+import {checkStudent, findUserByEmailAndPassword, saveDeviceIDToStudent} from "../src/firestoreQueries";
 import {useUser} from "../src/context";
 
 const Home = (props) => {
@@ -27,7 +28,41 @@ const Home = (props) => {
             }).catch((error) => {
             alert(error)
         })
-    }
+    };
+
+    const deviceCheck = async ({ user: {id: userID} }) => {
+        const studentData = await checkStudent({ userID: userID });
+
+        if (studentData) {
+            const deviceID = getDeviceID();
+            if (!studentData.deviceID) {
+                // Kaydet
+                await saveDeviceIDToStudent(
+                    studentData.sid,
+                    { deviceID: deviceID }
+                );
+            } else if (studentData.deviceID !== deviceID) {
+                if (studentData.newDeviceAllowed) {
+                    // yeni cihaz izinli olduğu için kaydet
+                    await saveDeviceIDToStudent(
+                        studentData.sid,
+                        {
+                            deviceID: deviceID,
+                            newDeviceAllowed: false
+                        }
+                    );
+                } else {
+                    // engelle
+                    await signOut(firebaseAuth);
+                    return props.navigation.navigate("DeviceCheckMessage");
+                }
+            } else if (studentData.deviceID === deviceID) {
+                // izin ver
+            }
+        }
+
+        props.navigation.navigate("MainContainer");
+    };
 
     const handleLogin = async () => {
         const userDB_ = await findUserByEmailAndPassword({ email, password });
@@ -41,31 +76,18 @@ const Home = (props) => {
                 console.warn(`${email} user not found in Firebase Auth. Creating the user on Firebase Auth...`);
                 userCredentialsFirebaseAuth = await createUserWithEmailAndPassword(firebaseAuth, email, password);
             } else {
+                console.error(e);
                 throw e;
             }
         }
-
         setUserInFirebaseAuth(userCredentialsFirebaseAuth.user);
-
         if (!userCredentialsFirebaseAuth.user.emailVerified) {
             await sendEmailVerification(userCredentialsFirebaseAuth.user);
             setWaitForVerification(true);
-            return props.navigation.navigate("Login");
+            return props.navigation.navigate("MailCheckMessage");
         }
 
-        return props.navigation.navigate("Guest");
-    };
-
-    const deviceCheck = async () => {
-        const isStudent = await checkStudent({ userID: user.id });
-
-        if (isStudent) {
-            // const deviceUniqueID = await getUniqueId();
-            console.log("device check...");
-            // console.log("device id", deviceUniqueID);
-        }
-
-        props.navigation.navigate("Guest");
+        await deviceCheck({ user: userDB_ });
     };
 
     useEffect(() => {
@@ -80,7 +102,7 @@ const Home = (props) => {
                     setWaitForVerification(false);
                     setUserInFirebaseAuth({...newUser.toJSON()});
                     setUser({...user, emailVerified: true});
-                    deviceCheck();
+                    deviceCheck({user: user});
                 }
             }, 2000);
 
@@ -118,7 +140,7 @@ const Home = (props) => {
                                               handleLogin(email, password)
                                                   .catch((error) => {
                                                   // If registration fails, handle the error appropriately
-                                                  alert(error.message || error);
+                                                  console.error(error);
                                               })
                                           }}
                         >
