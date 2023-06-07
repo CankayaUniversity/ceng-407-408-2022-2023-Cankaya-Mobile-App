@@ -123,7 +123,6 @@ export const getBusByPlateNumber = async ({plateNumber}) => {
     }
 
     const bus = querySnapshot.docs[0];
-    const busChecks = querySnapshot.map(buscheck => buscheck.data());
     const busData = bus.data();
 
     return {

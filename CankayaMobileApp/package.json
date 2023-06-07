@@ -20,6 +20,7 @@
     "expo": "^48.0.17",
     "expo-barcode-scanner": "~12.3.2",
     "expo-dev-client": "^2.2.1",
+    "expo-secure-store": "^12.1.1",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.22.0",
     "react": "^18.2.0",
@@ -27,6 +28,7 @@
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-device-info": "^10.6.0",
     "react-native-dropdown-picker": "^5.4.6",
+    "react-native-get-random-values": "^1.9.0",
     "react-native-hyperlink": "^0.0.22",
     "react-native-multiple-choice-picker": "^1.0.6",
     "react-native-paper": "^5.8.0",
@@ -36,7 +38,8 @@
     "react-native-table-component": "^1.2.2",
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "^2.15.4",
-    "react-native-webview": "11.26.0"
+    "react-native-webview": "11.26.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8"
