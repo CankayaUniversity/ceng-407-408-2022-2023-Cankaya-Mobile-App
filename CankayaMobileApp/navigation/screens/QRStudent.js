@@ -34,7 +34,8 @@ const QRStudent = () => {
 
             await saveBusCheck({ user: user, plateNumber: data, busID: bus.bid })
         } else {
-            alert('QR Code is not valid!', data);
+            navigation.navigate('QRDenied');
+            // alert('QR Code is not valid!', data);
         }
     };
 

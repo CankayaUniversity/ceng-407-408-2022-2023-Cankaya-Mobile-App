@@ -18,6 +18,7 @@ import DeviceCheckMessage from "./screens/DeviceCheckMessage";
 import MailCheckMessage from "./screens/MailCheckMessage";
 import QRResult from "./navigation/screens/QRResult";
 import MainContainer from "./navigation/MainContainer";
+import QRDenied from "./navigation/screens/QRDenied";
 
 
 const Stack = createNativeStackNavigator();
@@ -57,6 +58,7 @@ const Main = () => {
                     <Stack.Screen name="Survey3" component={Survey3}/>
                     <Stack.Screen name="DeviceCheckMessage" component={DeviceCheckMessage}/>
                     <Stack.Screen name="QRResult" component={QRResult}/>
+                    <Stack.Screen name="QRDenied" component={QRDenied}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
