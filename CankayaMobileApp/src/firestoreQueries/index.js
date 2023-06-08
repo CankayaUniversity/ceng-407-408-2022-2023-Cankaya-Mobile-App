@@ -30,6 +30,30 @@ export const submitSurveyToFirestore = async (surveyId, surveyType, surveyData) 
   }
 };
 
+export const getAllSurveyDataFromFirestore = async () => {
+  try {
+    const userRef = collection(firestore, 'users');
+    const querySnapshot = await getDocs(userRef);
+    const randomUserDoc = querySnapshot.docs[Math.floor(Math.random() * querySnapshot.size)];
+    const studentId = randomUserDoc.data().studentID;
+
+    const surveyRef = collection(firestore, 'survey');
+    const querySnapshotSurvey = await getDocs(surveyRef);
+
+    const allSurveyData = [];
+    querySnapshotSurvey.forEach((doc) => {
+      const surveyData = doc.data();
+      const documentId = `${studentId}_${surveyData.type}`;
+      allSurveyData.push({ documentId, data: surveyData });
+    });
+
+    return allSurveyData;
+  } catch (error) {
+    console.error('Error retrieving survey data:', error);
+    return [];
+  }
+};
+
 export const findUserByEmailAndPassword = async ({email, password}) => {
     const querySnapshot = await getDocs(
         query(usersRef, where("email", "==", email))
