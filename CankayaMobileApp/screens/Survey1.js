@@ -40,7 +40,7 @@ const Survey1 = () => {
       await submitSurveyToFirestore(1, 'CourseSurvey', surveyData); // Pass surveyId as 1 and surveyType as 'CourseSurvey' for Survey1
       
       console.log('Survey 1 data stored successfull!');
-      alert('Successfull!'); // Show success message to the user
+      alert('Submitted successfully!'); // Show success message to the user
     } catch (error) {
       console.error('Error storing survey 1 data:', error);
     }
