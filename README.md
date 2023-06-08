@@ -4,10 +4,10 @@ Our project is Cankaya University Mobile Application. We aim to add QR Attendanc
 # Advisor
 * [Prof. Dr. Ahmet COŞAR](http://www.cankaya.edu.tr/akademik_birimler/cv/Prof.Dr.AhmetCO%C5%9EAR.html)
 # Team Members
-* [Beste Alptekin](https://github.com/bestealptekin) - 201911005
-* [Furkan Doğan](https://github.com/furkan-dogan) - 201811409
-* [Mertcan Şeyda](https://github.com/MertcanSeyda) - 201511411
-* [İrem Bakar](https://github.com/irembakar) - 201911014
+* [Beste Alptekin](https://github.com/bestealptekin) - 201911005  [Task: Profile page's interface, QR Attendance interface and it's database part]
+* [Furkan Doğan](https://github.com/furkan-dogan) - 201811409     [Task: All applications basic interface's and databases, Login (Mail, DeviceID inc.) and QR Bus part]
+* [Mertcan Şeyda](https://github.com/MertcanSeyda) - 201511411    [Task: QR Attendance interface and QR Attendance's database part]
+* [İrem Bakar](https://github.com/irembakar) - 201911014          [Task: All Survey part]
 # Contents
 * [Project Web Page](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/wiki/Website)
 * [Project Report for CENG-407](https://github.com/CankayaUniversity/ceng-407-408-2022-2023-Cankaya-Mobile-App/blob/main/407_Report_CankayaMobileApp.pdf)
