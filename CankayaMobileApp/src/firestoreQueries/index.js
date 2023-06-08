@@ -54,6 +54,56 @@ export const getAllSurveyDataFromFirestore = async () => {
   }
 };
 
+// Button Press Part
+  export const saveButtonPressDate = async (buttonPressDate) => {
+  try {
+    const collectionName = 'lecturer_survey'; // Collection name
+    const documentName = 'createSurveyDate'; // Document name
+
+    const lecturer_surveyRef = doc(firestore, collectionName, documentName);
+    const snapshot = await getDoc(lecturer_surveyRef);
+
+    if (snapshot.exists()) {
+      // Document already exists, update the createDate field
+      await updateDoc(lecturer_surveyRef, {
+        createDate: buttonPressDate,
+      });
+      console.log('Button press date updated successfully!');
+    } else {
+      // Document doesn't exist yet, create a new document
+      await setDoc(lecturer_surveyRef, {
+        createDate: buttonPressDate,
+      });
+      console.log('Button press date stored successfully!');
+    }
+  } catch (error) {
+    console.error('Error storing button press date:', error);
+  }
+};
+
+export const fetchButtonPressDate = async () => {
+  try {
+    const collectionName = 'lecturer_survey'; // Collection name
+    const documentName = 'createSurveyDate'; // Document name
+
+    const lecturer_surveyRef = doc(firestore, collectionName, documentName);
+    const snapshot = await getDoc(lecturer_surveyRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.data();
+      const createDate = data.createDate;
+      console.log('Button press date:', createDate);
+      return createDate;
+    } else {
+      console.log('Document does not exist.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching button press date:', error);
+    return null;
+  }
+};
+
 export const findUserByEmailAndPassword = async ({email, password}) => {
     const querySnapshot = await getDocs(
         query(usersRef, where("email", "==", email))
