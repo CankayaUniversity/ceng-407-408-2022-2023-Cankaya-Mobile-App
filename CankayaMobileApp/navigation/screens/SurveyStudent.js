@@ -2,23 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, Button, Image, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
-import { fetchButtonPressDate } from '../../src/firestoreQueries/index';
+import { fetchButtonPressStatus } from '../../src/firestoreQueries/index';
 
 const SurveyStudent = () => {
   const navigation = useNavigation();
   const [selectedSurvey, setSelectedSurvey] = useState('Survey1');
-  const [surveyCreateDate, setSurveyCreateDate] = useState(null);
-  const currentDate = new Date();
+  const [isPressed, setIsPressed] = useState(false);
 
   useEffect(() => {
-    fetchButtonPressDate().then((createDate) => {
-      setSurveyCreateDate(createDate);
+    fetchButtonPressStatus().then((buttonPressStatus) => {
+      setIsPressed(buttonPressStatus);
     });
   }, []);
 
-  
   const navigateToSurveyPage = () => {
-    if (!surveyCreateDate || currentDate > surveyCreateDate) {
+    if (isPressed) {
       switch (selectedSurvey) {
         case 'Survey1':
           navigation.navigate('Survey1');
@@ -57,36 +55,36 @@ const SurveyStudent = () => {
       <Button
         title="Select"
         onPress={navigateToSurveyPage}
-        disabled={!surveyCreateDate || currentDate > surveyCreateDate}
+        disabled={!isPressed}
       />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  pickerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '80%',
-  },
-  picker: {
-    width: '100%',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    pickerContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '80%',
+    },
+    picker: {
+      width: '100%',
+    },
+    image: {
+      width: 100,
+      height: 100,
+      marginBottom: 10,
+    },
+  });
 
 export default SurveyStudent;
