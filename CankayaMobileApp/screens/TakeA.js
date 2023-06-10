@@ -1,25 +1,61 @@
-import React, { useState } from 'react';
+
+import React, { useState,useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { WebView } from 'react-native-webview';
+import { doc, setDoc } from "firebase/firestore";
+import { getCourses, saveQRCodeToFirestore,saveQRScanDataToFirestore } from "../src/firestoreQueries/index";
 
 const DropdownList = () => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const options = [
-    { label: 'CENG356', value: 'option1' },
-    { label: 'CENG328', value: 'option2' },
-    { label: 'CENG497', value: 'option3' },
-    { label: 'CENG393', value: 'option4' },
-  ];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const fetchedCourses = await getCourses();
+      setCourses(fetchedCourses);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
 
   const handleOptionSelect = (option) => {
-    setSelectedOption(option.value);
+    setSelectedOption(option);
     setIsDropdownOpen(false);
+    setShowQRCode(false);
   };
 
   const handleCreateQR = () => {
+    if (selectedOption) {
+      const QRData = Math.random().toString(36).substring(7);
+      setShowQRCode(true);
+      console.log('QR kod oluşturuldu');
+      console.log('randomValue: ' + QRData);
 
-    console.log('QR kod oluşturuldu');
+      saveQRCodeToFirestore(QRData, selectedOption.value); // Pass the selected courseId
+    }
+  };
+  const handleQRCodeScan = async (scannedData) => {
+    try {
+      // QR kodunun tarandığı dökümanın ID'si
+      const documentId = attendanceRef.id;
+
+      // Firestore'dan attendance dökümanını güncelle
+      const attendanceRef = doc(firestore, "attendance", documentId);
+      await updateDoc(attendanceRef, {
+        scannedData: scannedData,
+      });
+
+      console.log("QR kodu tarandı ve veritabanı güncellendi.");
+    } catch (error) {
+      console.error("Hata: QR kodu taranırken bir hata oluştu", error);
+    }
   };
 
   return (
@@ -29,7 +65,7 @@ const DropdownList = () => {
             onPress={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           <Text style={styles.dropdownButtonText}>
-            {selectedOption ? selectedOption : 'Choose a course'}
+            {selectedOption ? selectedOption.label : 'Choose a course'}
           </Text>
           <Icon
               name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
@@ -39,7 +75,7 @@ const DropdownList = () => {
         </TouchableOpacity>
         {isDropdownOpen && (
             <View style={styles.dropdownList}>
-              {options.map((option) => (
+              {courses.map((option) => (
                   <TouchableOpacity
                       key={option.value}
                       style={styles.dropdownListItem}
@@ -48,6 +84,16 @@ const DropdownList = () => {
                     <Text style={styles.dropdownListItemText}>{option.label}</Text>
                   </TouchableOpacity>
               ))}
+            </View>
+        )}
+        {showQRCode && (
+            <View style={styles.qrCodeContainer}>
+              <WebView
+                  style={styles.qrCode}
+                  source={{
+                    html: `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${selectedOption.value}&size=500x500" />`,
+                  }}
+              />
             </View>
         )}
         <TouchableOpacity
@@ -65,6 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "white",
   },
   dropdownButton: {
     flexDirection: 'row',
@@ -108,6 +155,18 @@ const styles = StyleSheet.create({
   createQRButtonText: {
     fontSize: 16,
     color: '#fff',
+  },
+  qrCodeContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    marginTop: 200,
+    marginLeft: 200,
+  },
+  qrCode: {
+    height: 450,
+    width: 450,
+    objectFit: 'contain',
   },
 });
 
