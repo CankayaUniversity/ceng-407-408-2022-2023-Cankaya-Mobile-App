@@ -108,9 +108,6 @@ const SurveyLecturer = () => {
       fontSize: 16,
       marginLeft: 10,
     },
-    buttonContainer: {
-      marginBottom: 20,
-    },
     image: {
       width: 100,
       height: 100,
