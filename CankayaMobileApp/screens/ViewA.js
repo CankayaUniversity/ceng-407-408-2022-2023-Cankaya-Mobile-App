@@ -1,61 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
 import { Table, Row, Rows } from 'react-native-table-component';
+import { getCourses, getAttendanceByCourse } from "../src/firestoreQueries/index";
 
 const DropdownList = () => {
     const [selectedOption, setSelectedOption] = useState(null);
-    const options = [
-        { label: 'CENG356', value: 'CENG356' },
-        { label: 'CENG328', value: 'CENG328' },
-        { label: 'CENG497', value: 'CENG497' },
-        { label: 'CENG393', value: 'CENG393' },
-    ];
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const navigation = useNavigation();
+    const [courses, setCourses] = useState([]);
+    const [attendanceData, setAttendanceData] = useState([]);
+
+    useEffect(() => {
+        fetchCourses();
+    }, []);
+
+    const fetchCourses = async () => {
+        try {
+            const fetchedCourses = await getCourses();
+            setCourses(fetchedCourses);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        }
+    };
+
+    const fetchAttendanceData = async () => {
+        try {
+            if (selectedOption) {
+                const fetchedAttendanceData = await getAttendanceByCourse(selectedOption.value);
+                setAttendanceData(fetchedAttendanceData);
+            }
+        } catch (error) {
+            console.error('Error fetching attendance data:', error);
+        }
+    };
 
     const handleOptionSelect = (option) => {
-        setSelectedOption(option.value);
+        setSelectedOption(option);
         setIsDropdownOpen(false);
+        fetchAttendanceData(); // Ders seçildiğinde yoklama verilerini çek
     };
 
     const renderTable = () => {
-        if (selectedOption) {
-            // Verileri burada doldurun veya bir API'den alın
-            const data = [
-                ['1', 'Veri 1', 'Veri 2', 'Veri 3'],
-                ['2', 'Veri 4', 'Veri 5', 'Veri 6'],
-                ['3', 'Veri 7', 'Veri 8', 'Veri 9'],
-                ['4', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['5', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['6', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['7', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['8', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['9', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['10', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['11', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['12', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['13', 'Veri 10', 'Veri 11', 'Veri 12'],
-                ['14', 'Veri 10', 'Veri 11', 'Veri 12'],
-            ];
+            const tableData = attendanceData.map((attendance) => [attendance.date, attendance.student_id]);
 
             return (
                 <ScrollView horizontal>
                     <View>
                         <Table borderStyle={styles.tableBorder}>
                             <Row
-                                data={['Week', 'Name Surname', 'Student No', 'Attendance']}
+                                data={['Date', 'Student ID']}
                                 style={styles.head}
                                 textStyle={styles.headText}
-                                flexArr={[1, 1, 1, 1]}
+                                flexArr={[1, 1]}
                             />
-                            <Rows data={data} textStyle={styles.rowText} flexArr={[null, null, null, null]} />
+                            <Rows data={tableData} textStyle={styles.rowText} flexArr={[1, 1]} />
                         </Table>
                     </View>
                 </ScrollView>
             );
-        }
     };
 
     return (
@@ -65,7 +67,7 @@ const DropdownList = () => {
                 onPress={() => setIsDropdownOpen(!isDropdownOpen)}
             >
                 <Text style={styles.dropdownButtonText}>
-                    {selectedOption ? selectedOption : 'Select a Course'}
+                    {selectedOption ? selectedOption.label : 'Choose a course'}
                 </Text>
                 <Icon
                     name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
@@ -75,7 +77,7 @@ const DropdownList = () => {
             </TouchableOpacity>
             {isDropdownOpen && (
                 <View style={styles.dropdownList}>
-                    {options.map((option) => (
+                    {courses.map((option) => (
                         <TouchableOpacity
                             key={option.value}
                             style={styles.dropdownListItem}
@@ -86,12 +88,6 @@ const DropdownList = () => {
                     ))}
                 </View>
             )}
-            <TouchableOpacity
-                style={styles.ViewAttendanceButton}
-                //onPress={..}
-            >
-                <Text style={styles.ViewAttendanceButtonText}>View Attendance</Text>
-            </TouchableOpacity>
             {renderTable()}
         </View>
     );
@@ -103,18 +99,6 @@ const styles = StyleSheet.create({
         marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    ViewAttendanceButton: {
-        width: 200,
-        height: 40,
-        backgroundColor: '#ccc',
-        borderRadius: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    ViewAttendanceButtonText: {
-        fontSize: 16,
-        color: '#fff',
     },
     dropdownButton: {
         flexDirection: 'row',
