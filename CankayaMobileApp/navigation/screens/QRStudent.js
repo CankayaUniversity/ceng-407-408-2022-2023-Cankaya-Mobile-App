@@ -27,15 +27,12 @@ const QRStudent = () => {
         const bus = await getBusByPlateNumber({ plateNumber: data });
 
         if (bus) {
-            // alert("VALID!");
-            // ekran göster
+            // alert('QR Code is valid!', data);
             navigation.navigate('QRResult');
-            // Save buscheck
-
             await saveBusCheck({ user: user, plateNumber: data, busID: bus.bid })
         } else {
-            navigation.navigate('QRDenied');
             // alert('QR Code is not valid!', data);
+            navigation.navigate('QRDenied');
         }
     };
 

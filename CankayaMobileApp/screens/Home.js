@@ -20,16 +20,6 @@ const Home = (props) => {
     const [userInFirebaseAuth, setUserInFirebaseAuth] = useState();
     const {user, setUser} = useUser();
 
-    //forget password
-    const forgetPassword = () => {
-        firebaseAuth.sendPasswordResetEmail(email)
-            .then(() => {
-                alert("Password reset email sent")
-            }).catch((error) => {
-            alert(error)
-        })
-    };
-
     const deviceCheck = async ({ user: {id: userID} }) => {
         const studentData = await checkStudent({ userID: userID });
 
@@ -146,22 +136,6 @@ const Home = (props) => {
                         >
                             <Text style={styles.text1}>Login</Text>
                         </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => forgetPassword()}
-                            style={{
-                                backgroundColor: "rgba(255, 255, 255, 0.6)",
-                                borderRadius: 50,
-                                width: 150,
-                                height: 20,
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginVertical: 5,
-                            }}
-                        >
-                            <Text style={{fontWeight: "bold", fontSize: 12}}>Forget Password?</Text>
-                        </TouchableOpacity>
-
                     </View>
                 </View>
                 <View>
@@ -226,6 +200,8 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "center",
         justifyContent: "center",
+        marginVertical: 20,
+
     },
     text1: {
         color: 'black',

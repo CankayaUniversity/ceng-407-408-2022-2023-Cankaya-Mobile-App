@@ -208,18 +208,21 @@ export const saveDeviceIDToStudent = async (studentID, {deviceID, newDeviceAllow
 }
 
 export const getBusByPlateNumber = async ({plateNumber}) => {
-    const q = query(
+    const q = query(        //bu satır alt iki satırdakilere ait bir sorgu oluşturuyor
         collection(firestore, "bus"),
         where("plate_number", "==", plateNumber)
     );
 
+    //oluşturulan sorguyu çalıştırarak anlık sorgu görüntüsünü alır
     const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.empty) {
+    if (querySnapshot.empty) { //boş mu değil mi kontrol ettik
         return undefined;
     }
 
+    // sorgu anlık görüntüsünden ilk belgeyi yani docs[0]'ı alır ve bus değişkenine atar.
     const bus = querySnapshot.docs[0];
+    // 'bus' belgesinin veri alanını (data()) alır ve busData değişkenine atar.
     const busData = bus.data();
 
     return {

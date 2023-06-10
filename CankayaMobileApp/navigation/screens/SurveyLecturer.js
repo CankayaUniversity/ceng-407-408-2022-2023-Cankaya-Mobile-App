@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, Button, FlatList, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { saveButtonPressDate, fetchButtonPressStatus } from '../../src/firestoreQueries/index';
+import { saveButtonPressDate } from '../../src/firestoreQueries/index';
 
 const SurveyLecturer = () => {
+  // const [selectedSurvey, setSelectedSurvey] = useState('Survey1');
   const navigation = useNavigation();
-  const [isButtonPressed, setIsButtonPressed] = useState(false);
-
-  useEffect(() => {
-    fetchButtonPressStatusFromFirestore();
-  }, []);
-
-  const fetchButtonPressStatusFromFirestore = async () => {
-    const buttonPressStatus = await fetchButtonPressStatus();
-    if (buttonPressStatus !== null) {
-      setIsButtonPressed(buttonPressStatus);
-    }
-  };
 
   const surveys = [
     { label: 'Course Survey', value: 'Survey1' },
@@ -24,15 +13,18 @@ const SurveyLecturer = () => {
     { label: 'University Survey', value: 'Survey3' },
   ];
 
+  // const handleSurveySelection = (value) => {
+  //   setSelectedSurvey(value);
+  // };
+
   const handleCreateButton = async () => {
     try {
       const createDate = new Date().toISOString();
-      await saveButtonPressDate(true); // Save the button press status as true
-      setIsButtonPressed(true); // Update the button press status in the component state
-      console.log('Button press status stored successfully!');
+      await saveButtonPressDate(createDate); // Pass the date directly
+      console.log('Date stored successfully!');
       alert('Successful!'); // Show success message to the user
     } catch (error) {
-      console.error('Error storing button press status:', error);
+      console.error('Error storing date:', error);
     }
   };
 
@@ -63,7 +55,7 @@ const SurveyLecturer = () => {
       <View style={styles.buttonContainer}>
         <Text style={styles.title}>Select an option:</Text>
         <View style={styles.buttons}>
-          <Button title="Create Surveys" onPress={handleCreateButton} disabled={isButtonPressed} />
+          <Button title="Create Surveys" onPress={handleCreateButton} />
           <View style={styles.buttonSpacing} />
           <Button title="Survey Results" onPress={handleSurveyResultsButton} />
         </View>
@@ -72,61 +64,58 @@ const SurveyLecturer = () => {
   );
 };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    centeredContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop:80, // Add marginTop to move the container downwards
-    },
-    content: {
-      alignItems: 'center',
-      marginBottom: 20,
-      marginTop: 100, // Add marginTop to move the content downwards
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginBottom: 20,
-    },
-    listContainer: {
-      alignItems: 'flex-start',
-      paddingHorizontal: 20,
-    },
-    surveyItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 10,
-    },
-    surveyLabel: {
-      fontSize: 16,
-      marginLeft: 10,
-    },
-    buttonContainer: {
-      marginBottom: 20,
-    },
-    image: {
-      width: 100,
-      height: 100,
-      marginBottom: 10,
-    },
-    buttonContainer: {
-      marginBottom: 140,
-      alignItems: 'center',
-    },
-    buttons: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    buttonSpacing: {
-      marginRight: 10,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  centeredContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:80, // MarginTop to move the container downwards
+  },
+  content: {
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 100, // MarginTop to move the content downwards
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  listContainer: {
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+  },
+  surveyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  surveyLabel: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  buttonContainer: {
+    marginBottom: 140,
+    alignItems: 'center',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  buttons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonSpacing: {
+    marginRight: 10,
+  },
+});
 
-  export default SurveyLecturer;
+export default SurveyLecturer;
