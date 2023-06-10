@@ -24,6 +24,7 @@ const QRStudent = () => {
 
     const handleBarCodeScanned = async ({type, data}) => {
         setScanned(true);
+        console.log('Scanned QR code id: ', data);
         const bus = await getBusByPlateNumber({ plateNumber: data });
 
         if (bus) {
@@ -59,6 +60,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
+    },
+    scanText: {
+        marginTop: 20,
+        fontSize: 16,
+        color: '#fff',
     },
 });
 
