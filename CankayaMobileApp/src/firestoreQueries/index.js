@@ -7,6 +7,60 @@ const studentsRef = collection(firestore, "student");
 const lecturersRef = collection(firestore, "lecturer");
 const buscheckRef = collection(firestore, "buscheck")
 
+export const saveQRCodeToFirestore = async (qrCodeData, courseId) => {
+    try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const student_id = user ? user.uid : null;
+
+        const attendanceRef = collection(firestore, "attendance");
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
+        const newDocRef = await addDoc(attendanceRef, {
+            QRData: qrCodeData,
+            course_id: courseId,
+            date: formattedDate,
+            student_id: null,
+        });
+
+        // Get the course name based on the courseId
+        const courseRef = doc(firestore, "courses", courseId);
+        const courseSnapshot = await getDoc(courseRef);
+        const courseName = courseSnapshot.data().name;
+
+        // Update the course_id and date fields in the attendance document
+        await setDoc(newDocRef, { course_name: courseName }, { merge: true });
+
+        console.log("QR code successfully saved to Firestore with ID:", newDocRef.id);
+    } catch (error) {
+        console.error("Error saving QR code to Firestore:", error);
+    }
+};
+
+export const getCourses = async () => {
+    const coursesRef = collection(firestore, 'courses',);
+    const querySnapshot = await getDocs(coursesRef);
+
+    const courses = [];
+    querySnapshot.forEach((doc) => {
+        const courseData = doc.data();
+        const courseId = doc.id;
+        const courseName = courseData.name;
+        courses.push({ label: courseName, value: courseId });
+    });
+
+    return courses;
+};
+
+export const saveQRScanDataToFirestore = async (courseId, qrCodeId) => {
+    try {
+        const courseRef = doc(firestore, "courses", courseId);
+        await setDoc(courseRef, { qrScanData: qrCodeId }, { merge: true });
+        console.log("QR scan data successfully saved to Firestore");
+    } catch (error) {
+        console.error("Error saving QR scan data to Firestore:", error);
+    }
+};
 export const submitSurveyToFirestore = async (surveyId, surveyType, surveyData) => {
   try {
     const userRef = collection(firestore, 'users');
