@@ -93,7 +93,8 @@ const SurveyLecturer = () => {
       fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
-      marginBottom: 20,
+      marginBottom: 140,
+      alignItems: 'center',
     },
     listContainer: {
       alignItems: 'flex-start',
@@ -112,10 +113,6 @@ const SurveyLecturer = () => {
       width: 100,
       height: 100,
       marginBottom: 10,
-    },
-    buttonContainer: {
-      marginBottom: 140,
-      alignItems: 'center',
     },
     buttons: {
       flexDirection: 'row',

@@ -9,20 +9,34 @@ import {useUser} from "../../src/context";
 const TableHomePage = () => {
     const [profileLines, setProfileLines] = useState();
     const {user} = useUser();
-    const {busChecks} = useUser();
+    //const {busChecks} = useUser();
 
 
     const getProfileLines = () => {
-        return [
+        const lines = [
             {id: 1, header1: 'User Type', header2: user.userType},
             {id: 2, header1: 'Name Surname', header2: [user.first_name, user.last_name].join(' ')},
             {id: 3, header1: 'ID Number', header2: user?.isStudent ? user.studentID : user.lecturerID},
-            {id: 4, header1: 'Class', header2: user.className},
-            {id: 5, header1: 'Faculty', header2: user.facultyName},
-            {id: 6, header1: 'Department', header2: user.departmentName},
-            {id: 7, header1: 'Telephone No', header2: user.telephoneNo},
-            {id: 8, header1: 'Nationality', header2: user.nationality},
+            {id: 4, header1: 'Faculty', header2: user.facultyName},
+            {id: 5, header1: 'Department', header2: user.departmentName},
+            {id: 6, header1: 'Telephone No', header2: user.telephoneNo},
+            {id: 7, header1: 'Nationality', header2: user.nationality},
         ];
+
+        if (user?.isLecturer) {
+            return lines;
+        } else {
+            return [
+                {id: 1, header1: 'User Type', header2: user.userType},
+                {id: 2, header1: 'Name Surname', header2: [user.first_name, user.last_name].join(' ')},
+                {id: 3, header1: 'ID Number', header2: user?.isStudent ? user.studentID : user.lecturerID},
+                {id: 4, header1: 'Class', header2: user.className},
+                {id: 5, header1: 'Faculty', header2: user.facultyName},
+                {id: 6, header1: 'Department', header2: user.departmentName},
+                {id: 7, header1: 'Telephone No', header2: user.telephoneNo},
+                {id: 8, header1: 'Nationality', header2: user.nationality},
+            ];
+        }
     };
 
     useEffect(() => {
